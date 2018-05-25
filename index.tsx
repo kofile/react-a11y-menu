@@ -20,6 +20,17 @@ type HandleMenuButtonKeys = (event: React.KeyboardEvent<HTMLButtonElement>) => v
 type KeyboardEvent = (event: React.KeyboardEvent<Event>) => void
 type HandleMenuKeys = (onClickHandler: OnClick) => KeyboardEvent
 
+interface GenerateOption {
+  prefix: string
+  recordRef: RecordRef
+  onKeyDown: HandleMenuKeys
+  close: () => void
+}
+
+interface GenerateOptions extends GenerateOption {
+  options: Options
+}
+
 export interface ViewProps {
   readonly isOpen: boolean
   readonly label: React.ReactNode
@@ -156,10 +167,8 @@ class Menu extends React.Component<Props, State> {
         break
 
       case 'Enter':
-        if (onClickHandler) {
-          event.stopPropagation()
-          onClickHandler()
-        }
+        event.stopPropagation()
+        onClickHandler()
         break
     }
   }
@@ -204,12 +213,13 @@ class Menu extends React.Component<Props, State> {
       isOpen: isOpen || false,
       controlProps,
       label: this.props.label,
-      options: generateOptions(
-        this.props.id,
-        this.props.options,
-        this.refMenuItem,
-        this.handleMenuKeys
-      )
+      options: generateOptions({
+        prefix: this.props.id,
+        options: this.props.options,
+        recordRef: this.refMenuItem,
+        onKeyDown: this.handleMenuKeys,
+        close: this.close
+      })
     }
 
     return <View {...props} />
@@ -256,11 +266,11 @@ function retreatIndex(index: number, upperIndex: number) {
   return newIndex
 }
 
-function generateOptions(prefix: string, options: Options, recordRef: RecordRef, onKeyDown: HandleMenuKeys) {
-  return options.map(generateOption({ prefix, recordRef, onKeyDown }))
+function generateOptions({ prefix, options, recordRef, onKeyDown, close }: GenerateOptions) {
+  return options.map(generateOption({ prefix, recordRef, onKeyDown, close }))
 }
 
-function generateOption({ prefix, recordRef, onKeyDown }: { prefix: string, recordRef: RecordRef, onKeyDown: HandleMenuKeys }) {
+function generateOption({ prefix, recordRef, onKeyDown, close }: GenerateOption) {
   return (optionProps: OptionProps): [string, React.ReactNode] => {
     const [element, userProps, children] = optionProps
     const id = `${prefix}--${md5(JSON.stringify(optionProps))}`
@@ -268,8 +278,19 @@ function generateOption({ prefix, recordRef, onKeyDown }: { prefix: string, reco
 
     recordRef(ref)
 
+    const doUserAction = () => {
+      close()
+
+      if (userProps.onClick) {
+        userProps.onClick()
+      }
+    }
+
     const props = {
       ...userProps,
+      onClick: (event: React.SyntheticEvent<MouseEvent>) => {
+        doUserAction()
+      },
       id,
       role: 'menuitem',
       tabIndex: -1
@@ -280,11 +301,9 @@ function generateOption({ prefix, recordRef, onKeyDown }: { prefix: string, reco
         ? { ...props, ref }
         : { ...props, innerRef: ref }
 
-    if (finalProps.onClick !== undefined) {
-      finalProps.onKeyDown = onKeyDown(finalProps.onClick)
-    } else {
-      finalProps.onKeyDown = onKeyDown(() => { })
-    }
+    finalProps.onKeyDown = onKeyDown(() => {
+      doUserAction()
+    })
 
     return [id, React.createElement(element, finalProps, children)]
   }
