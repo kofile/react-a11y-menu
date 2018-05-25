@@ -5,6 +5,7 @@
   "main": "index.js",
   "files": [
     "index.js",
+    "View.js",
     "README.md"
   ],
   "scripts": {
