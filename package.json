@@ -1,0 +1,27 @@
+{
+  "name": "react-a11y-menu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^16.3.14",
+    "tape": "^4.9.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "md5-o-matic": "^0.1.1"
+  },
+  "peerDependencies": {
+    "react": "^16.4.0"
+  }
+}
