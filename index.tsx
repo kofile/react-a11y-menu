@@ -76,7 +76,7 @@ class Menu extends React.Component<Props, State> {
     switch (event.key) {
       case 'Escape':
         event.preventDefault()
-        close()
+        this.close()
         break
 
       case 'ArrowDown':
