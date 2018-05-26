@@ -35,7 +35,7 @@ interface State {
 class Menu extends React.Component<Props, State> {
   tabbableElems: Array<HTMLElement> = []
   selectedIndex: number = 0
-  controlRef: React.RefObject<HTMLButtonElement> = React.createRef<HTMLButtonElement>()
+  containerRef: React.RefObject<HTMLElement> = React.createRef<HTMLElement>()
 
   state = {
     isOpen: false
@@ -100,11 +100,15 @@ class Menu extends React.Component<Props, State> {
         break
     }
 
-    this.tabbableElems[this.selectedIndex].focus()
+    const elemToFocus = this.tabbableElems[this.selectedIndex]
+
+    if (elemToFocus) {
+      elemToFocus.focus()
+    }
   }
 
   componentDidUpdate() {
-    this.tabbableElems = tabbable(this.controlRef.current)
+    this.tabbableElems = tabbable(this.containerRef.current)
   }
 
   render() {
@@ -117,13 +121,13 @@ class Menu extends React.Component<Props, State> {
       'aria-haspopup': 'menu' as 'menu',
       onClick: isOpen ? this.close : this.open,
       'aria-expanded': !!isOpen,
-      onKeyDown: this.handleMenuButtonKeys,
-      ref: this.controlRef
+      onKeyDown: this.handleMenuButtonKeys
     }
 
     const containerProps = {
       role: 'menu' as 'menu',
-      'aria-labelledby': id
+      'aria-labelledby': id,
+      ref: this.containerRef
     }
 
     const itemProps = {
