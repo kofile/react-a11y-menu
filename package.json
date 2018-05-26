@@ -9,7 +9,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "tsc"
   },
   "author": "",
   "license": "ISC",
