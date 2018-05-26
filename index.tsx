@@ -319,8 +319,7 @@ function generateOption({ prefix, recordRef, onKeyDown, close }: GenerateOption)
         doUserAction()
       },
       id,
-      role: 'menuitem',
-      tabIndex: -1
+      role: 'menuitem'
     }
 
     const finalProps =
