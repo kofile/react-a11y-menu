@@ -46,7 +46,6 @@ export interface ViewProps {
 }
 
 interface Props {
-  readonly isOpen?: boolean
   readonly id: string
   readonly label: ({ isOpen }: { isOpen: boolean }) => React.ReactNode
   readonly options: Options
@@ -54,7 +53,7 @@ interface Props {
 }
 
 interface State {
-  isOpen?: boolean
+  isOpen: boolean
   menuItemFocusIndex: number
 }
 
@@ -63,7 +62,7 @@ class Menu extends React.Component<Props, State> {
   controlRef: React.RefObject<HTMLButtonElement> = React.createRef()
 
   state = {
-    isOpen: this.props.isOpen,
+    isOpen: false,
     menuItemFocusIndex: 0
   }
 
@@ -77,15 +76,11 @@ class Menu extends React.Component<Props, State> {
     checkForDuplicateOptions(props.options)
   }
 
-  static defaultProps = {
-    isOpen: false
-  }
-
   static getDerivedStateFromProps(props: Props, state: State) {
     checkForDuplicateOptions(props.options)
 
     return {
-      isOpen: props.isOpen,
+      isOpen: state.isOpen,
       menuItemFocusIndex: 0
     }
   }
