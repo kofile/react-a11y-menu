@@ -1,5 +1,6 @@
 import * as React from 'react'
 import md5 from 'md5-o-matic'
+import FocusTrap from 'focus-trap-react'
 
 interface FinalOptionProps {
   readonly innerRef: (el: HTMLElement) => void
@@ -234,16 +235,18 @@ class Menu extends React.Component<Props, State> {
           {props.label({ isOpen: props.isOpen })}
         </button>
         {props.isOpen && (
-          <ul
-            role='menu'
-            aria-labelledby={props.controlProps.id}
-          >
-            {props.options.map(([id, option]) => (
-              <li role='presentation' key={id}>
-                {option}
-              </li>
-            ))}
-          </ul>
+          <FocusTrap>
+            <ul
+              role='menu'
+              aria-labelledby={props.controlProps.id}
+            >
+              {props.options.map(([id, option]) => (
+                <li role='presentation' key={id}>
+                  {option}
+                </li>
+              ))}
+            </ul>
+          </FocusTrap>
         )}
       </React.Fragment>
     )

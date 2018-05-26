@@ -20,6 +20,7 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
+    "focus-trap-react": "^3.1.2",
     "md5-o-matic": "^0.1.1"
   },
   "peerDependencies": {
