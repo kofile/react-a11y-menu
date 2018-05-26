@@ -26,6 +26,7 @@ interface Props {
   readonly renderLabel: (opts: RenderLabelProps) => React.ReactNode
   readonly renderOptions: (opts: RenderOptionsProps) => React.ReactNode
   readonly className?: string
+  readonly role?: string
 }
 
 interface State {
@@ -121,11 +122,12 @@ class Menu extends React.Component<Props, State> {
 
   render() {
     const { isOpen } = this.state
-    const { id, className, renderLabel, renderOptions } = this.props
+    const { id, className, renderLabel, renderOptions, role } = this.props
 
     const controlProps = {
       id,
       className,
+      role,
       'aria-haspopup': 'menu' as 'menu',
       onClick: isOpen ? this.close : this.open,
       'aria-expanded': !!isOpen,
