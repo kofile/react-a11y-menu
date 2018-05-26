@@ -73,6 +73,8 @@ class Menu extends React.Component<Props, State> {
   handleMenuKeys = (event: React.KeyboardEvent<Event>) => {
     const upperIndex = this.tabbableElems.length - 1
 
+    let handleFocus = false
+
     switch (event.key) {
       case 'Escape':
         event.preventDefault()
@@ -82,27 +84,31 @@ class Menu extends React.Component<Props, State> {
       case 'ArrowDown':
         event.preventDefault()
         this.selectedIndex = advanceIndex(this.selectedIndex, upperIndex)
+        handleFocus = true
         break
 
       case 'ArrowUp':
         event.preventDefault()
         this.selectedIndex = retreatIndex(this.selectedIndex, upperIndex)
+        handleFocus = true
         break
 
       case 'Home':
         event.preventDefault()
         this.selectedIndex = 0
+        handleFocus = true
         break
 
       case 'End':
         event.preventDefault()
         this.selectedIndex = upperIndex
+        handleFocus = true
         break
     }
 
     const elemToFocus = this.tabbableElems[this.selectedIndex]
 
-    if (elemToFocus) {
+    if (elemToFocus && handleFocus) {
       elemToFocus.focus()
     }
   }
