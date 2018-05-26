@@ -185,6 +185,8 @@ class Menu extends React.Component<Props, State> {
   componentDidUpdate() {
     const { menuItemFocusIndex, isOpen } = this.state
 
+    this.menuItemRefs = this.menuItemRefs.filter(r => !!r.current)
+
     if (isOpen) {
       const { current } = this.menuItemRefs[menuItemFocusIndex]
 
