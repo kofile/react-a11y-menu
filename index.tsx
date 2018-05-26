@@ -82,6 +82,15 @@ class Menu extends React.Component<Props, State> {
     isOpen: false
   }
 
+  static getDerivedStateFromProps(props: Props, state: State) {
+    checkForDuplicateOptions(props.options)
+
+    return {
+      isOpen: props.isOpen,
+      menuItemFocusIndex: 0
+    }
+  }
+
   /**
    * Handler for opening the menu, which sets the menu state to open and
    * automatically focuses the first menu option.
@@ -184,15 +193,6 @@ class Menu extends React.Component<Props, State> {
       }
     } else if (this.controlRef.current) {
       this.controlRef.current.focus()
-    }
-  }
-
-  getDerivedStateFromProps(props: Props, state: State) {
-    checkForDuplicateOptions(props.options)
-
-    return {
-      isOpen: props.isOpen,
-      menuItemFocusIndex: 0
     }
   }
 
