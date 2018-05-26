@@ -3,7 +3,9 @@ import { ViewProps } from '.'
 
 const View: React.SFC<ViewProps> = props => (
   <React.Fragment>
-    <button {...props.controlProps}>{props.label}</button>
+    <button {...props.controlProps}>
+      {props.label({ isOpen: props.isOpen })}
+    </button>
     {props.isOpen && (
       <ul
         role='menu'

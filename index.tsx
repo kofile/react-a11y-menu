@@ -33,7 +33,7 @@ interface GenerateOptions extends GenerateOption {
 
 export interface ViewProps {
   readonly isOpen: boolean
-  readonly label: React.ReactNode
+  readonly label: ({ isOpen }: { isOpen: boolean }) => React.ReactNode
   readonly options: Array<[string, React.ReactNode]>
   readonly controlProps: {
     readonly 'aria-haspopup': 'menu'
@@ -49,7 +49,7 @@ export interface ViewProps {
 interface Props {
   readonly isOpen?: boolean
   readonly id: string
-  readonly label: React.ReactNode
+  readonly label: ({ isOpen }: { isOpen: boolean }) => React.ReactNode
   readonly options: Options
   readonly className?: string
 }
