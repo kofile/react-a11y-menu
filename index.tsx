@@ -149,32 +149,42 @@ class Menu extends React.Component<Props, State> {
     const { menuItemFocusIndex } = this.state
     const upperIndex = this.props.options.length - 1
 
-    let newIndex = 0
-
     switch (event.key) {
       case 'Escape':
+        event.preventDefault()
         this.close()
         break
 
       case 'ArrowDown':
-        newIndex = advanceIndex(menuItemFocusIndex, upperIndex)
-        this.setState({ menuItemFocusIndex: newIndex })
+        event.preventDefault()
+
+        this.setState({
+          menuItemFocusIndex: advanceIndex(menuItemFocusIndex, upperIndex)
+        })
+
         break
 
       case 'ArrowUp':
-        newIndex = retreatIndex(menuItemFocusIndex, upperIndex)
-        this.setState({ menuItemFocusIndex: newIndex })
+        event.preventDefault()
+
+        this.setState({
+          menuItemFocusIndex: retreatIndex(menuItemFocusIndex, upperIndex)
+        })
+
         break
 
       case 'Home':
+        event.preventDefault()
         this.setState({ menuItemFocusIndex: 0 })
         break
 
       case 'End':
+        event.preventDefault()
         this.setState({ menuItemFocusIndex: upperIndex })
         break
 
       case 'Enter':
+        event.preventDefault()
         event.stopPropagation()
         onClickHandler()
         break
