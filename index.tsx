@@ -108,7 +108,9 @@ class Menu extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
-    this.tabbableElems = tabbable(this.containerRef.current)
+    this.tabbableElems = this.containerRef.current
+      ? tabbable(this.containerRef.current)
+      : []
   }
 
   render() {
