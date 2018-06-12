@@ -15,6 +15,7 @@ interface ItemProps {
 interface RenderOptionsProps {
   readonly containerProps: ContainerProps
   readonly itemProps: ItemProps
+  readonly selectedIndex: number
 }
 
 interface RenderLabelProps {
@@ -30,20 +31,23 @@ interface Props {
 }
 
 interface State {
-  isOpen: boolean
+  isOpen: boolean,
+  selectedIndex: number
 }
 
 class Menu extends React.Component<Props, State> {
   tabbableElems: Array<HTMLElement> = []
-  selectedIndex: number = 0
   containerRef: React.RefObject<HTMLElement> = React.createRef<HTMLElement>()
 
   state = {
-    isOpen: false
+    isOpen: false,
+    selectedIndex: 0
   }
 
   open = () => this.setState({ isOpen: true })
   close = () => this.setState({ isOpen: false })
+
+  setSelectedIndex = (i: number) => this.setState({ selectedIndex: i })
 
   handleMenuButtonKeys = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     const upperIndex = this.tabbableElems.length - 1
@@ -74,50 +78,70 @@ class Menu extends React.Component<Props, State> {
   handleMenuKeys = (event: React.KeyboardEvent<Event>) => {
     const upperIndex = this.tabbableElems.length - 1
 
-    let handleFocus = false
-
     switch (event.key) {
       case 'Escape':
         event.preventDefault()
+        this.setSelectedIndex(0)
         this.close()
         break
 
       case 'ArrowDown':
         event.preventDefault()
-        this.selectedIndex = advanceIndex(this.selectedIndex, upperIndex)
-        handleFocus = true
+        this.setSelectedIndex(advanceIndex(this.state.selectedIndex, upperIndex))
         break
 
       case 'ArrowUp':
         event.preventDefault()
-        this.selectedIndex = retreatIndex(this.selectedIndex, upperIndex)
-        handleFocus = true
+        this.setSelectedIndex(retreatIndex(this.state.selectedIndex, upperIndex))
         break
 
       case 'Home':
         event.preventDefault()
-        this.selectedIndex = 0
-        handleFocus = true
+        this.setSelectedIndex(0)
         break
 
       case 'End':
         event.preventDefault()
-        this.selectedIndex = upperIndex
-        handleFocus = true
+        this.setSelectedIndex(upperIndex)
         break
     }
 
-    const elemToFocus = this.tabbableElems[this.selectedIndex]
+    if (event.keyCode >= 65 && event.keyCode <= 90) {
+      const container = this.containerRef.current
 
-    if (elemToFocus && handleFocus) {
-      elemToFocus.focus()
+      if (container) {
+        const children = container.children || []
+        const childArray = Array.from(children)
+        const nextChildGroup = childArray.slice(this.state.selectedIndex + 1)
+        const prevChildGroup = childArray.slice(0, this.state.selectedIndex)
+
+        let index = getIndexByFirstChar(nextChildGroup, event)
+
+        if (index > -1) {
+          return this.setSelectedIndex(this.state.selectedIndex + 1 + index)
+        }
+
+        index = getIndexByFirstChar(prevChildGroup, event)
+
+        if (index > -1) {
+          this.setSelectedIndex(index)
+        }
+      }
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     this.tabbableElems = this.containerRef.current
       ? tabbable(this.containerRef.current)
       : []
+
+    if (this.state.selectedIndex !== prevState.selectedIndex) {
+      const elemToFocus = this.tabbableElems[this.state.selectedIndex]
+
+      if (elemToFocus) {
+        elemToFocus.focus()
+      }
+    }
   }
 
   render() {
@@ -152,7 +176,11 @@ class Menu extends React.Component<Props, State> {
         </button>
         {isOpen && (
           <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
-            {renderOptions({ containerProps, itemProps })}
+            {renderOptions({
+              containerProps,
+              itemProps,
+              selectedIndex: this.state.selectedIndex
+            })}
           </FocusTrap>
         )}
       </React.Fragment>
@@ -184,4 +212,15 @@ function retreatIndex(index: number, upperIndex: number) {
   }
 
   return newIndex
+}
+
+function getIndexByFirstChar(
+  children: Array<Element>,
+  event: React.KeyboardEvent<Event>
+) {
+  return children.findIndex((child: Element) => {
+    const childText = child.textContent || ''
+
+    return childText[0] === event.key
+  })
 }
