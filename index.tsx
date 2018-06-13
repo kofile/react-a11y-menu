@@ -35,17 +35,6 @@ interface State {
   selectedIndex: number
 }
 
-interface MouseClickEvent {
-  target: Node
-}
-
-interface MyWindow extends Window {
-  addEventListener(type: 'mousedown', listener: (ev: MouseClickEvent) => any, capture?: boolean): void;
-  addEventListener(type: string, listener: EventListener | EventListenerObject, useCapture?: boolean): void;
-  removeEventListener(type: 'mousedown', listener: (ev: MouseClickEvent) => any, capture?: boolean): void;
-  removeEventListener(type: string, listener: EventListener | EventListenerObject, useCapture?: boolean): void;
-}
-
 class Menu extends React.Component<Props, State> {
   tabbableElems: Array<HTMLElement> = []
   containerRef: React.RefObject<HTMLElement> = React.createRef<HTMLElement>()
@@ -139,30 +128,22 @@ class Menu extends React.Component<Props, State> {
     }
   }
 
-  handleClick = (event: MouseClickEvent) => {
+  handleClick = (event: MouseEvent) => {
     const container = this.containerRef.current
 
-    if (container && container.contains(event.target)) {
+    if (container && container.contains(event.target as Node)) {
       return
     }
 
     this.close()
   }
 
-  componentWillMount() {
-    if (typeof window !== 'undefined') {
-      const myWindow = window as MyWindow
-
-      myWindow.addEventListener('mousedown', this.handleClick, false)
-    }
+  componentDidMount() {
+    window.addEventListener('mousedown', this.handleClick, false)
   }
 
   componentWillUnmount() {
-    if (typeof window !== 'undefined') {
-      const myWindow = window as MyWindow
-
-      myWindow.removeEventListener('mousedown', this.handleClick, false)
-    }
+    window.removeEventListener('mousedown', this.handleClick, false)
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
