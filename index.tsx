@@ -45,8 +45,7 @@ class Menu extends React.Component<Props, State> {
   }
 
   open = () => this.setState({ isOpen: true })
-  close = () => this.setState({ isOpen: false })
-
+  close = () => this.setState({ isOpen: false, selectedIndex: 0 })
   setSelectedIndex = (i: number) => this.setState({ selectedIndex: i })
 
   handleMenuButtonKeys = (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -81,7 +80,6 @@ class Menu extends React.Component<Props, State> {
     switch (event.key) {
       case 'Escape':
         event.preventDefault()
-        this.setSelectedIndex(0)
         this.close()
         break
 
@@ -128,6 +126,24 @@ class Menu extends React.Component<Props, State> {
         }
       }
     }
+  }
+
+  handleClick = (event: MouseEvent) => {
+    const container = this.containerRef.current
+
+    if (container && container.contains(event.target as Node)) {
+      return
+    }
+
+    this.close()
+  }
+
+  componentDidMount() {
+    window.addEventListener('mousedown', this.handleClick, false)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mousedown', this.handleClick, false)
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
