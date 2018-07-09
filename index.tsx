@@ -31,7 +31,7 @@ interface Props {
 }
 
 interface State {
-  isOpen: boolean,
+  isOpen: boolean
   selectedIndex: number
 }
 
@@ -85,12 +85,16 @@ class Menu extends React.Component<Props, State> {
 
       case 'ArrowDown':
         event.preventDefault()
-        this.setSelectedIndex(advanceIndex(this.state.selectedIndex, upperIndex))
+        this.setSelectedIndex(
+          advanceIndex(this.state.selectedIndex, upperIndex)
+        )
         break
 
       case 'ArrowUp':
         event.preventDefault()
-        this.setSelectedIndex(retreatIndex(this.state.selectedIndex, upperIndex))
+        this.setSelectedIndex(
+          retreatIndex(this.state.selectedIndex, upperIndex)
+        )
         break
 
       case 'Home':
@@ -187,9 +191,9 @@ class Menu extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <button {...controlProps}>
-          {renderLabel({ isOpen })}
-        </button>
+        {renderLabel && (
+          <button {...controlProps}>{renderLabel({ isOpen })}</button>
+        )}
         {isOpen && (
           <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
             {renderOptions({
