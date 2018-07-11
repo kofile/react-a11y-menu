@@ -37,6 +37,7 @@ interface State {
 
 class Menu extends React.Component<Props, State> {
   tabbableElems: Array<HTMLElement> = []
+  menuRef: React.RefObject<HTMLButtonElement> = React.createRef<HTMLButtonElement>()
   containerRef: React.RefObject<HTMLElement> = React.createRef<HTMLElement>()
 
   state = {
@@ -134,8 +135,9 @@ class Menu extends React.Component<Props, State> {
 
   handleClick = (event: MouseEvent) => {
     const container = this.containerRef.current
+    const menu = this.menuRef.current
 
-    if (container && container.contains(event.target as Node)) {
+    if (container && container.contains(event.target as Node) || menu && menu.contains(event.target as Node)) {
       return
     }
 
@@ -175,7 +177,8 @@ class Menu extends React.Component<Props, State> {
       'aria-haspopup': 'menu' as 'menu',
       onClick: isOpen ? this.close : this.open,
       'aria-expanded': !!isOpen,
-      onKeyDown: this.handleMenuButtonKeys
+      onKeyDown: this.handleMenuButtonKeys,
+      ref: this.menuRef
     }
 
     const containerProps = {
