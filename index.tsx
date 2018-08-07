@@ -10,6 +10,7 @@ interface ContainerProps {
 interface ItemProps {
   readonly role: 'menuitem'
   readonly onKeyDown: (event: React.KeyboardEvent<Event>) => void
+  readonly onClick: (event: React.MouseEvent<Event>) => void
 }
 
 interface RenderOptionsProps {
@@ -188,6 +189,7 @@ class Menu extends React.Component<Props, State> {
     }
 
     const itemProps = {
+      onClick: this.close,
       onKeyDown: this.handleMenuKeys,
       role: 'menuitem' as 'menuitem'
     }
