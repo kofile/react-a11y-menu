@@ -10,13 +10,13 @@ interface ContainerProps {
 interface ItemProps {
   readonly role: 'menuitem'
   readonly onKeyDown: (event: React.KeyboardEvent<Event>) => void
-  readonly onClick: (event: React.MouseEvent<Event>) => void
 }
 
 interface RenderOptionsProps {
   readonly containerProps: ContainerProps
   readonly itemProps: ItemProps
   readonly selectedIndex: number
+  readonly close: () => void
 }
 
 interface RenderLabelProps {
@@ -38,7 +38,9 @@ interface State {
 
 class Menu extends React.Component<Props, State> {
   tabbableElems: Array<HTMLElement> = []
-  menuRef: React.RefObject<HTMLButtonElement> = React.createRef<HTMLButtonElement>()
+  menuRef: React.RefObject<HTMLButtonElement> = React.createRef<
+    HTMLButtonElement
+  >()
   containerRef: React.RefObject<HTMLElement> = React.createRef<HTMLElement>()
 
   state = {
@@ -138,7 +140,10 @@ class Menu extends React.Component<Props, State> {
     const container = this.containerRef.current
     const menu = this.menuRef.current
 
-    if (container && container.contains(event.target as Node) || menu && menu.contains(event.target as Node)) {
+    if (
+      (container && container.contains(event.target as Node)) ||
+      (menu && menu.contains(event.target as Node))
+    ) {
       return
     }
 
@@ -189,7 +194,6 @@ class Menu extends React.Component<Props, State> {
     }
 
     const itemProps = {
-      onClick: this.close,
       onKeyDown: this.handleMenuKeys,
       role: 'menuitem' as 'menuitem'
     }
@@ -204,7 +208,8 @@ class Menu extends React.Component<Props, State> {
             {renderOptions({
               containerProps,
               itemProps,
-              selectedIndex: this.state.selectedIndex
+              selectedIndex: this.state.selectedIndex,
+              close: this.close
             })}
           </FocusTrap>
         )}
