@@ -1,13 +1,10 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
     "strict": true,
-    "esModuleInterop": true,
     "jsx": "react",
-    "lib": ["dom","es2015"]
-  },
-  "include": [
-    "./*.tsx",
-    "./*.d.ts"
-  ]
+    "moduleResolution": "node",
+    "outDir": "dist"
+  }
 }

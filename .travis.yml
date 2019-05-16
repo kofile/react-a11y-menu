@@ -1,0 +1,29 @@
+language: node_js
+notifications:
+  email: false
+cache:
+  directories:
+    - node_modules
+node_js: lts/*
+jobs:
+  include:
+    - stage: commitlint
+      script: npx @commitlint/travis-cli
+    - stage: lint
+      script:
+        - yarn lint
+    - stage: test
+      script:
+        - yarn test
+    - stage: release
+      if: branch = master
+      node_js: lts/*
+      script:
+        - yarn build
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: npx semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
