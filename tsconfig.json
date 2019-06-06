@@ -6,5 +6,7 @@
     "jsx": "react",
     "moduleResolution": "node",
     "outDir": "dist"
-  }
+  },
+  "include": ["src"],
+  "exclude": ["**/*.test.ts", "**/*.test.tsx"]
 }
