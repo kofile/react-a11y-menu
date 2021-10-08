@@ -8,7 +8,7 @@ node_js: lts/*
 jobs:
   include:
     - stage: commitlint
-      script: npx @commitlint/travis-cli
+      script: commitlint-travis
     - stage: lint
       script:
         - yarn lint
