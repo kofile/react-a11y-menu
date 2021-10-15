@@ -1,5 +1,5 @@
 {
-  "name": "react-a11y-menu",
+  "name": "@kofile/react-a11y-menu",
   "version": "0.0.0--semantically-released",
   "description": "A a11y menu in React.",
   "module": "dist/index.js",
@@ -7,7 +7,7 @@
   "license": "WTFPL",
   "repository": {
     "type": "git",
-    "url": "https://github.com/neezer/react-a11y-menu"
+    "url": "https://github.com/kofile/react-a11y-menu"
   },
   "files": [
     "dist",
