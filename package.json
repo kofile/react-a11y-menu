@@ -5,6 +5,9 @@
   "module": "dist/index.js",
   "author": "Evan Sherwood <evan@sherwood.io>",
   "license": "WTFPL",
+  "engines": {
+    "node": "^14.18.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kofile/react-a11y-menu"
@@ -43,7 +46,7 @@
     "semantic-release": "^15.13.12",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.9.10"
   },
   "peerDependencies": {
     "react": "^16.8.0"
