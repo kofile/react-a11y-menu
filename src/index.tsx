@@ -31,14 +31,14 @@ interface IProps {
   readonly className?: string;
 }
 
-export const Menu: React.FunctionComponent<IProps> = props => {
+export const Menu: React.FunctionComponent<IProps> = (props) => {
   const { id, children, open: willStartOpen = false } = props;
 
   if (!isChildFunction(children)) {
     throw new Error("children to <Menu /> must be a function!");
   }
 
-  const menuRef = React.useRef(null);
+  const menuRef = React.useRef<HTMLDivElement>(null);
   const [isOpen, setOpen] = React.useState(willStartOpen);
   const [shouldClose, setShouldClose] = React.useState(false);
   const focus = useFocus(menuRef);
@@ -65,7 +65,7 @@ export const Menu: React.FunctionComponent<IProps> = props => {
 
   const toggleOpen = isOpen ? close : open;
 
-  const menuKeyDown: React.KeyboardEventHandler = event => {
+  const menuKeyDown: React.KeyboardEventHandler = (event) => {
     const { key } = event;
 
     switch (key) {
@@ -85,7 +85,7 @@ export const Menu: React.FunctionComponent<IProps> = props => {
     }
   };
 
-  const itemKeyDown: React.KeyboardEventHandler = event => {
+  const itemKeyDown: React.KeyboardEventHandler = (event) => {
     const { key, keyCode } = event;
 
     switch (key) {
@@ -118,11 +118,11 @@ export const Menu: React.FunctionComponent<IProps> = props => {
   };
 
   React.useLayoutEffect(() => {
-    const clickOutsideToClose: EventListenerOrEventListenerObject = event => {
+    const clickOutsideToClose: EventListenerOrEventListenerObject = (event) => {
       const menu = menuRef.current;
       const { target } = event;
 
-      if (isHTMLElement(menu) && isHTMLElement(target)) {
+      if (menu && isHTMLElement(menu) && isHTMLElement(target)) {
         if (menu.contains(target)) {
           return;
         }
@@ -146,18 +146,18 @@ export const Menu: React.FunctionComponent<IProps> = props => {
           "aria-haspopup": true,
           id,
           onClick: toggleOpen,
-          onKeyDown: menuKeyDown
+          onKeyDown: menuKeyDown,
         },
         isOpen,
         item: {
           onKeyDown: itemKeyDown,
           role: "menuitem",
-          tabIndex: -1
+          tabIndex: -1,
         },
         menu: {
           "aria-labelledby": id,
-          role: "menu"
-        }
+          role: "menu",
+        },
       })}
     </div>
   );
