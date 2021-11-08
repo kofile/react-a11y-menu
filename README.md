@@ -64,3 +64,9 @@ NOTE: Exported code is ES6.
 ## Author
 
 [neezer](https://github.com/neezer)
+
+## Publishing
+
+Publishing of this package is not automated. To publish, make sure you have a valid `NPM_TOKEN` and `GITHUB_TOKEN` set, set `CI=true`, and run `npm run release`. All changes must be published to the remote GitHub repository before running the publish script.
+
+**IMPORTANT**: The release script will automatically tag the newer version on NPM and GitHub _**and**_ make local changes to both `package.json` and `package-lock.json`. _**DO NOT COMMIT THESE CHANGES**_. If we had CI running this properly, these changes would be ignored automatically.
