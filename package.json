@@ -2,9 +2,17 @@
   "name": "@kofile/react-a11y-menu",
   "version": "0.0.0--semantically-released",
   "description": "A a11y menu in React.",
-  "main": "dist/index.js",
+  "source": "./src/index.tsx",
+  "main": "./dist/index.js",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.cjs",
+    "default": "./dist/index.modern.js"
+  },
   "author": "Evan Sherwood <evan@sherwood.io>",
-  "license": "WTFPL",
+  "license": "UNLICENSED",
   "engines": {
     "node": "^14.18.1"
   },
@@ -14,12 +22,11 @@
   },
   "files": [
     "dist",
-    "tsconfig.json",
     "README.md"
   ],
   "scripts": {
-    "build": "rimraf dist && tsc",
-    "prepublishOnly": "rimraf dist && tsc",
+    "build": "microbundle --jsx React.createElement",
+    "prepublishOnly": "microbundle --jsx React.createElement",
     "preview": "parcel serve preview/index.html",
     "test": "jest",
     "lint": "tslint --project ."
@@ -35,13 +42,13 @@
     "@types/react-dom": "^16.8.4",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
+    "microbundle": "^0.14.1",
     "parcel-bundler": "^1.12.3",
     "prettier": "^1.17.1",
     "react": "^16.8.0",
     "react-dom": "^16.8.6",
     "react-test-renderer": "^16.8.6",
     "react-testing-library": "^7.0.0",
-    "rimraf": "^2.6.3",
     "semantic-release": "^15.13.12",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
