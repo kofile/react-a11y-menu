@@ -27,6 +27,7 @@
   "scripts": {
     "build": "microbundle --jsx React.createElement",
     "prepublishOnly": "microbundle --jsx React.createElement",
+    "release": "semantic-release",
     "preview": "parcel serve preview/index.html",
     "test": "jest",
     "lint": "tslint --project ."
