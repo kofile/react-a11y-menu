@@ -14,7 +14,7 @@
   "author": "Evan Sherwood <evan@sherwood.io>",
   "license": "UNLICENSED",
   "engines": {
-    "node": "^14.18.1"
+    "node": ">=14.18.1"
   },
   "repository": {
     "type": "git",
