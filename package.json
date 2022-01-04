@@ -8,7 +8,6 @@
   "unpkg": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.cjs",
     "default": "./dist/index.modern.js"
   },
   "author": "Evan Sherwood <evan@sherwood.io>",
